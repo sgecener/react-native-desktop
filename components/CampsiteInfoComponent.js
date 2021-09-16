@@ -29,6 +29,8 @@ function RenderCampsite(props) {
 
     const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
 
+    const recognizeComment = ({dx}) => (dx > 200 ) ? true : false;
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
         onPanResponderGrant: () => {
@@ -55,10 +57,16 @@ function RenderCampsite(props) {
                     ],
                     { cancelable: false }
                 );
-            }
+            } 
+
+            else if (recognizeComment(gestureState)) {
+                    props.onShowModal();                
+            } 
+
             return true;
         }
     });
+
 
     if (campsite) {
         return (
@@ -231,8 +239,8 @@ class CampsiteInfo extends Component {
                         <View style={{margin: 10}}>
                             <Button 
                                 onPress={() => {
-                                    this.state.toggleModal();
-                                    this.state.resetForm();
+                                    this.toggleModal();
+                                    this.resetForm();
                                 }}
                                 color='#808080'
                                 title='Cancel'
